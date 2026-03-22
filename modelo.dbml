@@ -1,0 +1,45 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table pacientes {
+  id_paciente serial
+  cedula varchar(20)
+  nombre_completo varchar(120)
+  fecha_nacimiento date
+  tipo_sangre varchar(5)
+}
+
+Table personal_medico {
+  id_medico serial
+  nombre_completo varchar(120)
+  tarjeta_profesional varchar(50)
+  especialidad varchar(100)
+}
+
+Table citas_medicas {
+  id_cita serial
+  id_paciente int
+  id_medico int
+  fecha_hora timestamp
+  motivo_consulta varchar(255)
+}
+
+Table historias_clinicas {
+  id_historia serial
+  id_cita int
+  diagnostico text
+  tratamiento_recetado text
+}
+
+Table monitoreo_signos_vitales {
+  id_monitoreo serial
+  id_paciente int
+  frecuencia_cardiaca int
+  temperatura decimal(4,2)
+  fecha_hora timestamp
+}
+
+Ref: citas_medicas.id_paciente > pacientes.id_paciente
+Ref: citas_medicas.id_medico > personal_medico.id_medico
+Ref: historias_clinicas.id_cita > citas_medicas.id_cita
+Ref: monitoreo_signos_vitales.id_paciente > pacientes.id_paciente
